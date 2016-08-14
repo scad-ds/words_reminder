@@ -2,8 +2,8 @@
 
 #include <QtCore>
 
-class Class1
+class WordsManager
 {
 public:
-    Class1();
+    WordsManager();
 };

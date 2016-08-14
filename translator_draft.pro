@@ -4,7 +4,7 @@ QT += qml quick
 CONFIG += c++11
 
 SOURCES += main.cpp \
-    business_logic/translation_manager.cpp \
+    business_logic/words_manager.cpp \
     data_layer/data_accessor.cpp \
     ui_models/words_model.cpp \
     application.cpp \
@@ -22,7 +22,7 @@ QML_IMPORT_PATH =
 include(deployment.pri)
 
 HEADERS += \
-    business_logic/translation_manager.h \
+    business_logic/words_manager.h \
     data_layer/data_accessor.h \
     ui_models/words_model.h \
     application.h \
