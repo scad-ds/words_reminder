@@ -1,0 +1,11 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>LoadingScreen.qml</file>
+        <file>StartScreen.qml</file>
+        <file>SelectTranslationMode.qml</file>
+        <file>MainLayout.qml</file>
+        <file>SelectTranslationLevel.qml</file>
+        <file>SelectTranslationDirection.qml</file>
+    </qresource>
+</RCC>
