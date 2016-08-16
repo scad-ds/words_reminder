@@ -55,25 +55,104 @@ MainLayout
 
             model: selectionModel
 
-            delegate: Rectangle {
-                width: selectionListView.width
-                height: 50
+            delegate: Column {
 
-                Text
-                {
-                    id: dlg
+                id: selectionListDelegate
 
-                    anchors.centerIn: parent
-                    text: name /*from model*/
-                }
-                MouseArea
+                property bool expanded: false
+
+                spacing: 10
+
+                Rectangle
                 {
-                    anchors.fill: parent
-                    onClicked:
+                    width: selectionListView.width
+                    height: 50
+
+                    Text
                     {
-                        wrapper.selectionSwitcher(index)
+                        anchors.centerIn: parent
+                        text: name /*from model*/
+                    }
+
+                    MouseArea
+                    {
+                        anchors.fill: parent
+                        onClicked:
+                        {
+                            selectionListDelegate.expanded = !selectionListDelegate.expanded
+                        }
                     }
                 }
+
+                Grid
+                {
+                    id: xxx
+
+                      width: selectionListView.width
+                      height: 0
+                      columns: 3
+                      spacing: 15
+
+//                      visible: false
+
+                      Repeater
+                      {
+                          model: 5
+
+                          Rectangle
+                          {
+                              width: 50
+                              height: xxx.height / 3
+                              color: "gray"
+                          }
+                      }
+                }
+
+                states:
+                [
+                    State
+                    {
+                        name: "Expanded"
+                        when: selectionListDelegate.expanded
+
+                        PropertyChanges
+                        {
+                            target: xxx
+//                            visible: true
+                        }
+                    }
+                ]
+                transitions:
+                [
+                    Transition
+                    {
+                        from: ""
+                        to: "Expanded"
+
+                        PropertyAnimation
+                        {
+                            target: xxx
+                            from: 0
+                            to: 150
+                            properties: "height"
+                            duration: 500
+                        }
+                    },
+                    Transition
+                    {
+                        from: "Expanded"
+                        to: ""
+
+                        PropertyAnimation
+                        {
+                            target: xxx
+                            from: 150
+                            to: 0
+                            properties: "height"
+                            duration: 500
+                        }
+                    }
+                ]
             }
         }
     }
