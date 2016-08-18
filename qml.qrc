@@ -8,5 +8,6 @@
         <file>SelectTranslationLevel.qml</file>
         <file>SelectTranslationDirection.qml</file>
         <file>SelectionModeListDelegate.qml</file>
+        <file>SkinConfig.qml</file>
     </qresource>
 </RCC>

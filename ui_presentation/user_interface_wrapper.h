@@ -2,6 +2,9 @@
 
 #include <QtCore>
 #include <QQmlApplicationEngine>
+#include <QQmlEngine>
+#include <QQmlContext>
+#include <QQmlComponent>
 
 #include <ui_models/ui_models_layer_wrapper.h>
 

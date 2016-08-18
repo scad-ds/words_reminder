@@ -7,5 +7,4 @@ Application::Application(int& argc, char** argv)
     , uiModelsLayerWrapper_( new um::UiModelsLayerWrapper(businessLayerWrapper_) )
     , uiLayerWrapper_( new ui::UserInterfaceWrapper(uiModelsLayerWrapper_) )
 {
-
 }

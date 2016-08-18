@@ -43,125 +43,35 @@ MainLayout
 
         anchors.fill: parent
 
-        ListView
+        ScrollView
         {
-            id: selectionListView
+            id: scrollArea
 
-            width: parent.width * 0.8
-            height: selectionListView.contentHeight
-            anchors.centerIn: parent
-            spacing : 10
+            width: parent.width
+            height: selectionListView.contentHeight < parent.height ? selectionListView.contentHeight : parent.height
 
-            boundsBehavior: Flickable.StopAtBounds
+            anchors.verticalCenter: parent.verticalCenter
 
-            model: selectionModel
+            ListView
+            {
+                id: selectionListView
 
-            delegate: Column {
+                width: parent.width * 0.8
+                height: selectionListView.contentHeight
+                anchors.centerIn: parent
+                spacing : 10
 
-                id: selectionListDelegate
+                boundsBehavior: Flickable.StopAtBounds
 
-                property bool expanded: false
+                model: selectionModel
 
-                spacing: 10
+                delegate:
+                SelectionModeListDelegate {
+                    id: dlg
 
-                Rectangle
-                {
                     width: selectionListView.width
-                    height: 50
-
-                    Text
-                    {
-                        anchors.centerIn: parent
-                        text: name /*from model*/
-                    }
-
-                    MouseArea
-                    {
-                        anchors.fill: parent
-                        onClicked:
-                        {
-                            selectionListDelegate.expanded = !selectionListDelegate.expanded
-                        }
-                    }
+                    subcategoriesModel: 5 * ((index + 1) * 3)
                 }
-
-                GridLayout
-                {
-                    id: gridLayout
-
-                      width: selectionListView.width
-                      height: 0
-                      columns: 5
-
-                      property int availableSize: (gridLayout.width - (gridLayout.columnSpacing * (gridLayout.columns - 1)) ) / gridLayout.columns
-
-                      property int rowsCount: Math.ceil(repeater.count / gridLayout.columns)
-
-                      property int reqHeight: gridLayout.availableSize * gridLayout.rowsCount + (gridLayout.rowSpacing * (gridLayout.rowsCount - 1))
-
-//                      visible: false
-
-                      Repeater
-                      {
-                          id: repeater
-
-                          model: 5 * ((index + 1) * 3)
-
-                          Rectangle
-                          {
-                              id: rect
-//                              Layout.minimumWidth: gridLayout.width * 0.25
-                              Layout.preferredWidth: gridLayout.width * (100 / gridLayout.columns)
-                              Layout.maximumWidth: gridLayout.width * (100 / gridLayout.columns)
-                              Layout.fillWidth: true
-                              Layout.preferredHeight: rect.width
-                              Layout.fillHeight: true
-//                              width: 50
-//                              height: xxx.height / 3
-                              color: "gray"
-                          }
-                      }
-                }
-
-                states:
-                [
-                    State
-                    {
-                        name: "Expanded"
-                        when: selectionListDelegate.expanded
-                    }
-                ]
-                transitions:
-                [
-                    Transition
-                    {
-                        from: ""
-                        to: "Expanded"
-
-                        PropertyAnimation
-                        {
-                            target: gridLayout
-                            from: 0
-                            to: gridLayout.reqHeight
-                            properties: "height"
-                            duration: 250
-                        }
-                    },
-                    Transition
-                    {
-                        from: "Expanded"
-                        to: ""
-
-                        PropertyAnimation
-                        {
-                            target: gridLayout
-                            from: gridLayout.reqHeight
-                            to: 0
-                            properties: "height"
-                            duration: 250
-                        }
-                    }
-                ]
             }
         }
     }

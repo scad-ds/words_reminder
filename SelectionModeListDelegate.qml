@@ -16,7 +16,7 @@ Column
     {
         id: categoryListItem
 
-        width: ListView.view.width
+        width: wrapper.width
         height: 50
 
         Text
@@ -40,7 +40,7 @@ Column
 
         id: subcategoriesLayout
 
-        width: ListView.view.width
+        width: wrapper.width
         height: 0
         columns: 5
 
@@ -51,8 +51,6 @@ Column
         Repeater
         {
             id: subcategoriesRepeater
-
-//            model: 5 * ((index + 1) * 3)
 
             Rectangle
             {
