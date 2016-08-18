@@ -1,6 +1,7 @@
 import QtQuick 2.7
 import QtQuick.Window 2.2
 import QtQuick.Controls 1.4
+import QtQuick.Layouts 1.1
 
 MainLayout
 {
@@ -84,25 +85,39 @@ MainLayout
                     }
                 }
 
-                Grid
+                GridLayout
                 {
-                    id: xxx
+                    id: gridLayout
 
                       width: selectionListView.width
                       height: 0
-                      columns: 3
-                      spacing: 15
+                      columns: 5
+
+                      property int availableSize: (gridLayout.width - (gridLayout.columnSpacing * (gridLayout.columns - 1)) ) / gridLayout.columns
+
+                      property int rowsCount: Math.ceil(repeater.count / gridLayout.columns)
+
+                      property int reqHeight: gridLayout.availableSize * gridLayout.rowsCount + (gridLayout.rowSpacing * (gridLayout.rowsCount - 1))
 
 //                      visible: false
 
                       Repeater
                       {
-                          model: 5
+                          id: repeater
+
+                          model: 5 * ((index + 1) * 3)
 
                           Rectangle
                           {
-                              width: 50
-                              height: xxx.height / 3
+                              id: rect
+//                              Layout.minimumWidth: gridLayout.width * 0.25
+                              Layout.preferredWidth: gridLayout.width * (100 / gridLayout.columns)
+                              Layout.maximumWidth: gridLayout.width * (100 / gridLayout.columns)
+                              Layout.fillWidth: true
+                              Layout.preferredHeight: rect.width
+                              Layout.fillHeight: true
+//                              width: 50
+//                              height: xxx.height / 3
                               color: "gray"
                           }
                       }
@@ -114,12 +129,6 @@ MainLayout
                     {
                         name: "Expanded"
                         when: selectionListDelegate.expanded
-
-                        PropertyChanges
-                        {
-                            target: xxx
-//                            visible: true
-                        }
                     }
                 ]
                 transitions:
@@ -131,11 +140,11 @@ MainLayout
 
                         PropertyAnimation
                         {
-                            target: xxx
+                            target: gridLayout
                             from: 0
-                            to: 150
+                            to: gridLayout.reqHeight
                             properties: "height"
-                            duration: 500
+                            duration: 250
                         }
                     },
                     Transition
@@ -145,11 +154,11 @@ MainLayout
 
                         PropertyAnimation
                         {
-                            target: xxx
-                            from: 150
+                            target: gridLayout
+                            from: gridLayout.reqHeight
                             to: 0
                             properties: "height"
-                            duration: 500
+                            duration: 250
                         }
                     }
                 ]

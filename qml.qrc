@@ -7,5 +7,6 @@
         <file>MainLayout.qml</file>
         <file>SelectTranslationLevel.qml</file>
         <file>SelectTranslationDirection.qml</file>
+        <file>SelectionModeListDelegate.qml</file>
     </qresource>
 </RCC>
