@@ -1,13 +1,14 @@
 <RCC>
     <qresource prefix="/">
-        <file>main.qml</file>
-        <file>LoadingScreen.qml</file>
-        <file>StartScreen.qml</file>
-        <file>SelectTranslationMode.qml</file>
-        <file>MainLayout.qml</file>
-        <file>SelectTranslationLevel.qml</file>
-        <file>SelectTranslationDirection.qml</file>
-        <file>SelectionModeListDelegate.qml</file>
-        <file>SkinConfig.qml</file>
+        <file>qml_layer/main.qml</file>
+        <file>qml_layer/LoadingScreen.qml</file>
+        <file>qml_layer/StartScreen.qml</file>
+        <file>qml_layer/SelectTranslationMode.qml</file>
+        <file>qml_layer/MainLayout.qml</file>
+        <file>qml_layer/SelectTranslationLevel.qml</file>
+        <file>qml_layer/SelectTranslationDirection.qml</file>
+        <file>qml_layer/SelectionModeListDelegate.qml</file>
+        <file>qml_layer/SkinConfig.qml</file>
+        <file>qml_layer/skin_styles/MainStyle.qml</file>
     </qresource>
 </RCC>
