@@ -1,15 +1,14 @@
 import QtQuick 2.7
-import QtQuick.Window 2.2
 import QtQuick.Controls 1.4
 import QtQuick.Layouts 1.1
 
-Column
+FocusScope
 {
     id: wrapper
 
     signal clicked()
 
-    spacing: 10
+    property alias contentText: textItem.text
 
     Rectangle
     {
@@ -17,11 +16,14 @@ Column
 
         width: wrapper.width
         height: 50
+        color: "white"
 
         Text
         {
+            id: textItem
+
             anchors.centerIn: parent
-            text: name /*from model*/
+            text: wrapper.contentText
         }
 
         MouseArea

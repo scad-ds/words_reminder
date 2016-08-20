@@ -46,13 +46,13 @@ Window
             DSM.SignalTransition
             {
                 signal: startScreenState.startClicked
-                targetState: selectTranslationCategoryState
+                targetState: selectCategoryState
             }
         }
 
         DSM.State
         {
-            id: selectTranslationCategoryState
+            id: selectCategoryState
 
             signal categoryActivated(int index)
             signal toSubcategoties()
@@ -61,15 +61,15 @@ Window
 
             onCategoryActivated:
             {
-                selectTranslationSubcategoryState.categoryIndex = index /*From signal*/
-                selectTranslationSubcategoryState.categoryName = selectTranslationCategoryState.categotiesModel.getCategoryNameByIndex(index /*From signal*/)
-                selectTranslationCategoryState.toSubcategoties()
+                selectSubcategoryState.categoryIndex = index /*From signal*/
+                selectSubcategoryState.categoryName = selectCategoryState.categotiesModel.getCategoryNameByIndex(index /*From signal*/)
+                selectCategoryState.toSubcategoties()
             }
 
             onEntered:
             {
-                contentLoader.sourceComponent = selectTranslationCategoryComponent
-                selectTranslationCategoryState.categotiesModel = qmlModelsFactory.createCategoriesModel(contentLoader.item)
+                contentLoader.sourceComponent = selectCategoryComponent
+                selectCategoryState.categotiesModel = qmlModelsFactory.createCategoriesModel(contentLoader.item)
             }
 
             DSM.SignalTransition
@@ -86,14 +86,17 @@ Window
 
             DSM.SignalTransition
             {
-                signal: selectTranslationCategoryState.toSubcategoties
-                targetState: selectTranslationSubcategoryState
+                signal: selectCategoryState.toSubcategoties
+                targetState: selectSubcategoryState
             }
         }
 
         DSM.State
         {
-            id: selectTranslationSubcategoryState
+            id: selectSubcategoryState
+
+            signal toSelectDirection()
+            signal partActivated(string name, int sucategoryIndex, int partIndex)
 
             property var subcategotiesModel: null
             property string categoryName: ""
@@ -101,14 +104,20 @@ Window
 
             onEntered:
             {
-                contentLoader.sourceComponent = selectTranslationSubcategoryComponent
-                selectTranslationSubcategoryState.subcategotiesModel = qmlModelsFactory.createSubcategoriesModel(selectTranslationSubcategoryState.categoryIndex, contentLoader.item)
+                contentLoader.sourceComponent = selectSubcategoryComponent
+                selectSubcategoryState.subcategotiesModel = qmlModelsFactory.createSubcategoriesModel(selectSubcategoryState.categoryIndex, contentLoader.item)
+            }
+
+            onPartActivated:
+            {
+                console.debug(">>> categoryName = " + name + ", sucategoryIndex = " + sucategoryIndex + ", partIndex = " + partIndex)
+                selectSubcategoryState.toSelectDirection()
             }
 
             DSM.SignalTransition
             {
                 signal: screensDsm.backClicked
-                targetState: selectTranslationCategoryState
+                targetState: selectCategoryState
             }
 
             DSM.SignalTransition
@@ -116,21 +125,27 @@ Window
                 signal: screensDsm.quitClicked
                 targetState: finalState
             }
+
+            DSM.SignalTransition
+            {
+                signal: selectSubcategoryState.toSelectDirection
+                targetState: selectDirectionState
+            }
         }
 
         DSM.State
         {
-            id: selectTranslationDirectionState
+            id: selectDirectionState
 
             onEntered:
             {
-                contentLoader.sourceComponent = selectTranslationSubcategoryComponent
+                contentLoader.sourceComponent = selectDirectionComponent
             }
 
             DSM.SignalTransition
             {
                 signal: screensDsm.backClicked
-                targetState: selectTranslationCategoryState
+                targetState: selectSubcategoryState
             }
 
             DSM.SignalTransition
@@ -155,7 +170,7 @@ Window
         id: contentLoader
 
         anchors.fill: parent
-        asynchronous: true
+        asynchronous: false
         sourceComponent: loadingScreenComponent
     }
 
@@ -221,14 +236,8 @@ Window
             // 1
             // 1
 
-            function switchSubcategory(index)
-            {
-                console.debug("function switchSubcategory(index) " + index)
-            }
-
             function createPartsModel(index)
             {
-                console.debug("function createPartsModel(index) " + index)
                 return 12
             }
 
@@ -271,13 +280,13 @@ Window
 
     Component
     {
-        id: selectTranslationCategoryComponent
+        id: selectCategoryComponent
 
         Screens.SelectTranslationCategoty
         {
-            id: selectTranslationCategory
+            id: selectCategory
 
-            categoties: selectTranslationCategoryState.categotiesModel
+            categoties: selectCategoryState.categotiesModel
 
             onLeftHeaderButtonClicked:
             {
@@ -291,21 +300,21 @@ Window
 
             onCategoryActivated:
             {
-                selectTranslationCategoryState.categoryActivated(index /*From signal*/)
+                selectCategoryState.categoryActivated(index /*From signal*/)
             }
         }
     }
 
     Component
     {
-        id: selectTranslationSubcategoryComponent
+        id: selectSubcategoryComponent
 
         Screens.SelectTranslationSubcategory
         {
-            id: selectTranslationSubcategory
+            id: selectSubcategory
 
-            subcategoties: selectTranslationSubcategoryState.subcategotiesModel
-            categoryName: selectTranslationSubcategoryState.categoryName
+            subcategoties: selectSubcategoryState.subcategotiesModel
+            categoryName: selectSubcategoryState.categoryName
 
             onLeftHeaderButtonClicked:
             {
@@ -319,19 +328,18 @@ Window
 
             onPartActivated:
             {
-                console.debug(">>> categoryName = " + selectTranslationSubcategory.categoryName + ", sucategoryIndex = " + sucategoryIndex + ", partIndex = " + partIndex)
-
+                selectSubcategoryState.partActivated(selectSubcategory.categoryName, sucategoryIndex, partIndex)
             }
         }
     }
 
     Component
     {
-        id: selectTranslationDirectionComponent
+        id: selectDirectionComponent
 
         Screens.SelectTranslationDirection
         {
-            id: selectTranslationDirection
+            id: selectDirection
 
             onLeftHeaderButtonClicked:
             {

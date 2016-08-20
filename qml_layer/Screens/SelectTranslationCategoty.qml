@@ -1,5 +1,4 @@
 import QtQuick 2.7
-import QtQuick.Window 2.2
 import QtQuick.Controls 1.4
 import QtQuick.Layouts 1.1
 import "qrc:/qml_layer/Common" as Common
@@ -45,7 +44,11 @@ Common.MainLayout
                 delegate:
                 SelectableComponents.SelectionModeListDelegate
                 {
+                    id: listDelegate
+
                     width: selectionListView.width
+                    height: 50
+                    contentText: name /*from model*/
 
                     onClicked:
                     {

@@ -1,82 +1,199 @@
 import QtQuick 2.7
-import QtQuick.Window 2.2
 import QtQuick.Controls 1.4
+import QtQuick.Layouts 1.1
 import "qrc:/qml_layer/Common" as Common
+import "qrc:/qml_layer/SelectableComponents" as SelectableComponents
 
 Common.MainLayout
 {
 	id: wrapper
 
-    signal byLevelClicked()
-
-    function selectionSwitcher(index)
-    {
-        if( index === 0 )
-        {
-            wrapper.byLevelClicked()
-        }
-    }
+    signal learnSelected()
+    signal rusToEngSelected()
+    signal engToRusSelected()
+    signal mixingSelected()
 
     leftHeaderButtonText: qsTr("Back")
     rightHeaderButtonText: qsTr("Quit")
-    centralHeaderText: qsTr("Status line...")
+    centralHeaderText: qsTr("SelectTranslationDirection")
 
-    ListModel
+    contentItem:
+    FocusScope
     {
-        id: selectionModel
-
-        ListElement
-        {
-            name: "Eng -> Rus"
-        }
-        ListElement
-        {
-            name: "Rus -> Eng"
-        }
-        ListElement
-        {
-            name: "Mix"
-        }
-    }
-
-    contentItem: FocusScope {
-
         anchors.fill: parent
 
-        ListView
+        Column
         {
-            id: selectionListView
-
-            width: parent.width * 0.8
-            height: selectionListView.contentHeight
+            width: parent.width
             anchors.centerIn: parent
-            spacing : 10
+            spacing: 10
 
-            boundsBehavior: Flickable.StopAtBounds
-
-            model: selectionModel
-
-            delegate: Rectangle {
-                width: selectionListView.width
+            SelectableComponents.SelectionModeListDelegate
+            {
+                width: parent.width
                 height: 50
 
-                Text
-                {
-                    id: dlg
+                contentText: qsTr("Learn")
 
-                    anchors.centerIn: parent
-                    text: name /*from model*/
-                }
-                MouseArea
+                onClicked:
                 {
-                    anchors.fill: parent
+                    wrapper.learnSelected()
+                }
+            }
+
+            Column
+            {
+                id: checkRow
+
+                property bool expanded: false
+
+                width: parent.width
+
+                SelectableComponents.SelectionModeListDelegate
+                {
+                    id: checkListItem
+
+                    width: parent.width
+                    height: 50
+
+                    contentText: qsTr("Check")
+
                     onClicked:
                     {
-                        wrapper.selectionSwitcher(index)
+                        checkRow.expanded = !checkRow.expanded
                     }
                 }
+
+                RowLayout
+                {
+                    id: directionRow
+
+                    property int availableSize: (directionRow.width - (2 /**/ * directionRow.spacing) ) / 3 /**/
+
+                    width: parent.width
+                    height: 0
+                    clip: true
+
+                    Rectangle
+                    {
+                        Layout.minimumWidth: directionRow.availableSize
+                        Layout.preferredWidth: directionRow.availableSize
+                        Layout.maximumWidth: directionRow.availableSize
+                        Layout.fillHeight: true
+
+                        color: "brown"
+
+                        Text
+                        {
+                            anchors.centerIn: parent
+                            text: qsTr("Eng to Rus")
+                        }
+
+                        MouseArea
+                        {
+                            anchors.fill: parent
+
+                            onClicked:
+                            {
+                                wrapper.engToRusSelected()
+                            }
+                        }
+                    }
+
+                    Rectangle
+                    {
+                        Layout.minimumWidth: directionRow.availableSize
+                        Layout.preferredWidth: directionRow.availableSize
+                        Layout.maximumWidth: directionRow.availableSize
+                        Layout.fillHeight: true
+
+                        color: "brown"
+
+                        Text
+                        {
+                            anchors.centerIn: parent
+                            text: qsTr("Rus to Eng")
+                        }
+
+                        MouseArea
+                        {
+                            anchors.fill: parent
+
+                            onClicked:
+                            {
+                                wrapper.rusToEngSelected()
+                            }
+                        }
+                    }
+
+                    Rectangle
+                    {
+                        Layout.minimumWidth: directionRow.availableSize
+                        Layout.preferredWidth: directionRow.availableSize
+                        Layout.maximumWidth: directionRow.availableSize
+                        Layout.fillHeight: true
+
+                        color: "brown"
+
+                        Text
+                        {
+                            anchors.centerIn: parent
+                            text: qsTr("Mixing")
+                        }
+
+                        MouseArea
+                        {
+                            anchors.fill: parent
+
+                            onClicked:
+                            {
+                                wrapper.mixingSelected()
+                            }
+                        }
+                    }
+                }
+
+                states:
+                [
+                    State
+                    {
+                        name: "Expanded"
+                        when: checkRow.expanded
+                    }
+                ]
+
+                transitions:
+                [
+                    Transition
+                    {
+                        from: ""
+                        to: "Expanded"
+
+                        PropertyAnimation
+                        {
+                            target: directionRow
+                            from: 0
+                            to: directionRow.availableSize
+                            properties: "height"
+                            duration: 250
+                        }
+                    },
+                    Transition
+                    {
+                        from: "Expanded"
+                        to: ""
+
+                        PropertyAnimation
+                        {
+                            target: directionRow
+                            from: directionRow.availableSize
+                            to: 0
+                            properties: "height"
+                            duration: 250
+                        }
+                    }
+                ]
             }
         }
     }
-
 }
