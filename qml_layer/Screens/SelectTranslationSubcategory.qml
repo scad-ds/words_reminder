@@ -2,45 +2,25 @@ import QtQuick 2.7
 import QtQuick.Window 2.2
 import QtQuick.Controls 1.4
 import QtQuick.Layouts 1.1
+import "qrc:/qml_layer/Common" as Common
+import "qrc:/qml_layer/SelectableComponents" as SelectableComponents
 
-MainLayout
+Common.MainLayout
 {
-	id: wrapper
+    id: wrapper
 
-    signal byLevelClicked()
+    signal partActivated(int sucategoryIndex, int partIndex)
 
-    function selectionSwitcher(index)
-    {
-        if( index === 0 )
-        {
-            wrapper.byLevelClicked()
-        }
-    }
+    property string categoryName: ""
+    property alias subcategoties: selectionListView.model
 
     leftHeaderButtonText: qsTr("Back")
     rightHeaderButtonText: qsTr("Quit")
-    centralHeaderText: qsTr("Status line...")
+    centralHeaderText: qsTr("SelectTranslationSubcategory")
 
-    ListModel
+    contentItem:
+    FocusScope
     {
-        id: selectionModel
-
-        ListElement
-        {
-            name: "By levels"
-        }
-        ListElement
-        {
-            name: "All verbs"
-        }
-        ListElement
-        {
-            name: "Irregular verbs"
-        }
-    }
-
-    contentItem: FocusScope {
-
         anchors.fill: parent
 
         ScrollView
@@ -63,14 +43,16 @@ MainLayout
 
                 boundsBehavior: Flickable.StopAtBounds
 
-                model: selectionModel
-
                 delegate:
-                SelectionModeListDelegate {
-                    id: dlg
-
+                SelectableComponents.SelectionModeListExpandedDelegate
+                {
                     width: selectionListView.width
-                    subcategoriesModel: 5 * ((index + 1) * 3)
+                    model: wrapper.subcategoties.createPartsModel(index)
+
+                    onSubcategoryActivated:
+                    {
+                        wrapper.partActivated(index /*attached propery*/, activatedIndex /*From signal*/)
+                    }
                 }
             }
         }

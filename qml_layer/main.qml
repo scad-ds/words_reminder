@@ -2,6 +2,8 @@ import QtQuick 2.7
 import QtQuick.Window 2.2
 import QtQuick.Controls 1.4
 import QtQml.StateMachine 1.0 as DSM
+import "qrc:/qml_layer/Common" as Common
+import "qrc:/qml_layer/Screens" as Screens
 
 Window
 {
@@ -44,19 +46,30 @@ Window
             DSM.SignalTransition
             {
                 signal: startScreenState.startClicked
-                targetState: selectTranslationModeState
+                targetState: selectTranslationCategoryState
             }
         }
 
         DSM.State
         {
-            id: selectTranslationModeState
+            id: selectTranslationCategoryState
 
-            signal byLevelClicked()
+            signal categoryActivated(int index)
+            signal toSubcategoties()
+
+            property var categotiesModel: null
+
+            onCategoryActivated:
+            {
+                selectTranslationSubcategoryState.categoryIndex = index /*From signal*/
+                selectTranslationSubcategoryState.categoryName = selectTranslationCategoryState.categotiesModel.getCategoryNameByIndex(index /*From signal*/)
+                selectTranslationCategoryState.toSubcategoties()
+            }
 
             onEntered:
             {
-                contentLoader.sourceComponent = selectTranslationModeComponent
+                contentLoader.sourceComponent = selectTranslationCategoryComponent
+                selectTranslationCategoryState.categotiesModel = qmlModelsFactory.createCategoriesModel(contentLoader.item)
             }
 
             DSM.SignalTransition
@@ -73,24 +86,29 @@ Window
 
             DSM.SignalTransition
             {
-                signal: selectTranslationModeState.byLevelClicked
-                targetState: selectTranslationLevelState
+                signal: selectTranslationCategoryState.toSubcategoties
+                targetState: selectTranslationSubcategoryState
             }
         }
 
         DSM.State
         {
-            id: selectTranslationLevelState
+            id: selectTranslationSubcategoryState
+
+            property var subcategotiesModel: null
+            property string categoryName: ""
+            property int categoryIndex: -1
 
             onEntered:
             {
-                contentLoader.sourceComponent = selectTranslationLevelComponent
+                contentLoader.sourceComponent = selectTranslationSubcategoryComponent
+                selectTranslationSubcategoryState.subcategotiesModel = qmlModelsFactory.createSubcategoriesModel(selectTranslationSubcategoryState.categoryIndex, contentLoader.item)
             }
 
             DSM.SignalTransition
             {
                 signal: screensDsm.backClicked
-                targetState: selectTranslationModeState
+                targetState: selectTranslationCategoryState
             }
 
             DSM.SignalTransition
@@ -106,13 +124,13 @@ Window
 
             onEntered:
             {
-                contentLoader.sourceComponent = selectTranslationLevelComponent
+                contentLoader.sourceComponent = selectTranslationSubcategoryComponent
             }
 
             DSM.SignalTransition
             {
                 signal: screensDsm.backClicked
-                targetState: selectTranslationModeState
+                targetState: selectTranslationCategoryState
             }
 
             DSM.SignalTransition
@@ -141,11 +159,96 @@ Window
         sourceComponent: loadingScreenComponent
     }
 
+    // ------------------- Models -------------------------------------------------------
+
+    QtObject
+    {
+        id: qmlModelsFactory
+
+        function createCategoriesModel(parent)
+        {
+            return categoriesModelComponent.createObject(parent)
+        }
+
+        function createSubcategoriesModel(index, parent)
+        {
+            return subcategoriesModelComponent.createObject(parent)
+        }
+    }
+
+    Component
+    {
+        id: categoriesModelComponent
+
+        ListModel
+        {
+            id: categoriesModel
+
+            // Roles:
+            // 1
+            // 1
+            // 1
+            // 1
+
+            function getCategoryNameByIndex(index)
+            {
+                return categoriesModel.get(index).name
+            }
+
+            Component.onCompleted:
+            {
+                categoriesModel.append({ "name": "By levels" })
+                categoriesModel.append({ "name": "All verbs" })
+                categoriesModel.append({ "name": "Irregular verbs 1" })
+                categoriesModel.append({ "name": "Irregular verbs 2" })
+                categoriesModel.append({ "name": "Irregular verbs 3" })
+                categoriesModel.append({ "name": "Irregular verbs 4" })
+            }
+        }
+    }
+
+    Component
+    {
+        id: subcategoriesModelComponent
+
+        ListModel
+        {
+            id: subcategoriesModel
+
+            // Roles:
+            // 1
+            // 1
+            // 1
+            // 1
+
+            function switchSubcategory(index)
+            {
+                console.debug("function switchSubcategory(index) " + index)
+            }
+
+            function createPartsModel(index)
+            {
+                console.debug("function createPartsModel(index) " + index)
+                return 12
+            }
+
+            Component.onCompleted:
+            {
+                subcategoriesModel.append({ "name": "subcategoty 1" })
+                subcategoriesModel.append({ "name": "subcategoty 2" })
+                subcategoriesModel.append({ "name": "subcategoty 3" })
+                subcategoriesModel.append({ "name": "subcategoty 4" })
+            }
+        }
+    }
+
+    // ------------------- Components ---------------------------------------------------
+
     Component
     {
         id: loadingScreenComponent
 
-        LoadingScreen
+        Common.LoadingScreen
         {
             id: loadingScreen
         }
@@ -155,7 +258,7 @@ Window
     {
         id: startScreenComponent
 
-        StartScreen
+        Screens.StartScreen
         {
             id: startScreen
 
@@ -168,11 +271,13 @@ Window
 
     Component
     {
-        id: selectTranslationModeComponent
+        id: selectTranslationCategoryComponent
 
-        SelectTranslationMode
+        Screens.SelectTranslationCategoty
         {
-            id: selectTranslationMode
+            id: selectTranslationCategory
+
+            categoties: selectTranslationCategoryState.categotiesModel
 
             onLeftHeaderButtonClicked:
             {
@@ -184,20 +289,23 @@ Window
                 screensDsm.quitClicked()
             }
 
-            onByLevelClicked:
+            onCategoryActivated:
             {
-                selectTranslationModeState.byLevelClicked()
+                selectTranslationCategoryState.categoryActivated(index /*From signal*/)
             }
         }
     }
 
     Component
     {
-        id: selectTranslationLevelComponent
+        id: selectTranslationSubcategoryComponent
 
-        SelectTranslationLevel
+        Screens.SelectTranslationSubcategory
         {
-            id: selectTranslationLevel
+            id: selectTranslationSubcategory
+
+            subcategoties: selectTranslationSubcategoryState.subcategotiesModel
+            categoryName: selectTranslationSubcategoryState.categoryName
 
             onLeftHeaderButtonClicked:
             {
@@ -207,6 +315,12 @@ Window
             onRightHeaderButtonClicked:
             {
                 screensDsm.quitClicked()
+            }
+
+            onPartActivated:
+            {
+                console.debug(">>> categoryName = " + selectTranslationSubcategory.categoryName + ", sucategoryIndex = " + sucategoryIndex + ", partIndex = " + partIndex)
+
             }
         }
     }
@@ -215,7 +329,7 @@ Window
     {
         id: selectTranslationDirectionComponent
 
-        SelectTranslationDirection
+        Screens.SelectTranslationDirection
         {
             id: selectTranslationDirection
 

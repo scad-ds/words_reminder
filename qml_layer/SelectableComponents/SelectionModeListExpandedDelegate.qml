@@ -7,7 +7,9 @@ Column
 {
     id: wrapper
 
-    property alias subcategoriesModel: subcategoriesRepeater.model
+    signal subcategoryActivated(int activatedIndex)
+
+    property alias model: subcategoriesRepeater.model
     property bool expanded: false
 
     spacing: 10
@@ -43,6 +45,7 @@ Column
         width: wrapper.width
         height: 0
         columns: 5
+        clip: true
 
         property int availableCellSize: (subcategoriesLayout.width - (subcategoriesLayout.columnSpacing * (subcategoriesLayout.columns - 1)) ) / subcategoriesLayout.columns
         property int rowsCount: Math.ceil(subcategoriesRepeater.count / subcategoriesLayout.columns)
@@ -63,6 +66,22 @@ Column
                 Layout.fillHeight: true
 
                 color: "gray"
+
+                Text
+                {
+                    anchors.centerIn: parent
+                    text: index /*attached propery*/
+                }
+
+                MouseArea
+                {
+                    anchors.fill: parent
+
+                    onClicked:
+                    {
+                        wrapper.subcategoryActivated(index /*attached propery*/)
+                    }
+                }
             }
         }
     }

@@ -37,7 +37,7 @@ FocusScope
 	
 	            onClicked:
 	            {
-	                wrapper.startClicked()
+                    wrapper.startClicked()
 	            }
 	        }
 	    }

@@ -8,7 +8,7 @@ namespace ui
 UserInterfaceWrapper::UserInterfaceWrapper(QSharedPointer<um::UiModelsLayerWrapper> umWrapper)
     : uiModelsLayerWrapper_(umWrapper)
 {
-    QQmlComponent skinComponent(&engine_, QUrl(QStringLiteral("qrc:/qml_layer/SkinConfig.qml")), &engine_);
+    QQmlComponent skinComponent(&engine_, QUrl(QStringLiteral("qrc:/qml_layer/Styles/SkinConfig.qml")), &engine_);
     QObject* skin = skinComponent.create();
 
     engine_.rootContext()->setContextProperty("skin", skin);
