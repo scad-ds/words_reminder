@@ -137,6 +137,8 @@ Window
         {
             id: selectDirectionState
 
+            signal toCardScreen()
+
             onEntered:
             {
                 contentLoader.sourceComponent = selectDirectionComponent
@@ -144,8 +146,36 @@ Window
 
             DSM.SignalTransition
             {
+                signal: selectDirectionState.toCardScreen
+                targetState: translationCardState
+            }
+
+            DSM.SignalTransition
+            {
                 signal: screensDsm.backClicked
                 targetState: selectSubcategoryState
+            }
+
+            DSM.SignalTransition
+            {
+                signal: screensDsm.quitClicked
+                targetState: finalState
+            }
+        }
+
+        DSM.State
+        {
+            id: translationCardState
+
+            onEntered:
+            {
+                contentLoader.sourceComponent = translationCardScreenComponent
+            }
+
+            DSM.SignalTransition
+            {
+                signal: screensDsm.backClicked
+                targetState: selectDirectionState
             }
 
             DSM.SignalTransition
@@ -340,6 +370,31 @@ Window
         Screens.SelectTranslationDirection
         {
             id: selectDirection
+
+            onLeftHeaderButtonClicked:
+            {
+                screensDsm.backClicked()
+            }
+
+            onRightHeaderButtonClicked:
+            {
+                screensDsm.quitClicked()
+            }
+
+            onLearnSelected:
+            {
+                selectDirectionState.toCardScreen()
+            }
+        }
+    }
+
+    Component
+    {
+        id: translationCardScreenComponent
+
+        Screens.TranslationCardScreen
+        {
+            id: translationCardScreen
 
             onLeftHeaderButtonClicked:
             {

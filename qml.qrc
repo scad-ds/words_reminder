@@ -11,5 +11,6 @@
         <file>qml_layer/Styles/MainStyle.qml</file>
         <file>qml_layer/Styles/SkinConfig.qml</file>
         <file>qml_layer/SelectableComponents/SelectionModeListExpandedDelegate.qml</file>
+        <file>qml_layer/Screens/TranslationCardScreen.qml</file>
     </qresource>
 </RCC>
