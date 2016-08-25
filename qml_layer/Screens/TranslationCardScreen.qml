@@ -21,9 +21,12 @@ Common.MainLayout
         {
             id: contentLayout
 
+            property string targetWord: "(to) work"
+            property string translatedWord: "работать"
+
             anchors.fill: parent
 
-            Row//Layout
+            Item
             {
                 Layout.fillWidth: true
                 Layout.minimumHeight: 100
@@ -32,73 +35,103 @@ Common.MainLayout
 
                 Layout.topMargin: contentLayout.height * 0.1
 
-                Item
+                Rectangle
                 {
-                    width: parent.width * 0.4
-                    height: parent.height
-
-                    Rectangle
-                    {
-                        width: text1.implicitWidth + 30
-                        height: text1.implicitHeight + 30
-                        anchors.centerIn: parent
-                        color: "transparent"
-                        border.width: 2
-                        border.color: "black"
-
-                        Text
-                        {
-                            id: text1
-
-                            anchors.centerIn: parent
-                            font.pixelSize: 24
-                            text: "Blablabla 1"
-                        }
-                    }
-                }
-
-                Item
-                {
-                    width: parent.width * 0.2
-                    height: parent.height
+                    width: text1.implicitWidth + 30
+                    height: text1.implicitHeight + 30
+                    anchors.centerIn: parent
+                    color: "transparent"
+//                    border.width: 2
+//                    border.color: "black"
 
                     Text
                     {
-                        verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignHCenter
+                        id: text1
 
                         anchors.centerIn: parent
                         font.pixelSize: 24
-
-                        text: " --- "
-                    }
-                }
-
-                Item
-                {
-                    width: parent.width * 0.4
-                    height: parent.height
-
-                    Rectangle
-                    {
-                        width: text2.implicitWidth + 30
-                        height: text2.implicitHeight + 30
-                        anchors.centerIn: parent
-
-                        color: "transparent"
-                        border.width: 2
-                        border.color: "black"
-
-                        Text
-                        {
-                            id: text2
-                            anchors.centerIn: parent
-                            font.pixelSize: 24
-                            text: "Blablabla 2"
-                        }
+                        text: qsTr("<b>%1</b>   -   <b>%2</b>").arg(contentLayout.targetWord).arg(contentLayout.translatedWord)
                     }
                 }
             }
+
+
+//            Row//Layout
+//            {
+//                Layout.fillWidth: true
+//                Layout.minimumHeight: 100
+//                Layout.preferredHeight: 100
+//                Layout.maximumHeight: 100
+
+//                Layout.topMargin: contentLayout.height * 0.1
+
+//                Item
+//                {
+//                    width: parent.width * 0.4
+//                    height: parent.height
+
+//                    Rectangle
+//                    {
+//                        width: text1.implicitWidth + 30
+//                        height: text1.implicitHeight + 30
+//                        anchors.centerIn: parent
+//                        color: "transparent"
+//                        border.width: 2
+//                        border.color: "black"
+
+//                        Text
+//                        {
+//                            id: text1
+
+//                            anchors.centerIn: parent
+//                            font.pixelSize: 24
+//                            text: "(to) work"
+//                        }
+//                    }
+//                }
+
+//                Item
+//                {
+//                    width: parent.width * 0.2
+//                    height: parent.height
+
+//                    Text
+//                    {
+//                        verticalAlignment: Text.AlignVCenter
+//                        horizontalAlignment: Text.AlignHCenter
+
+//                        anchors.centerIn: parent
+//                        font.pixelSize: 24
+
+//                        text: " - "
+//                    }
+//                }
+
+//                Item
+//                {
+//                    width: parent.width * 0.4
+//                    height: parent.height
+
+//                    Rectangle
+//                    {
+//                        width: text2.implicitWidth + 30
+//                        height: text2.implicitHeight + 30
+//                        anchors.centerIn: parent
+
+//                        color: "transparent"
+//                        border.width: 2
+//                        border.color: "black"
+
+//                        Text
+//                        {
+//                            id: text2
+//                            anchors.centerIn: parent
+//                            font.pixelSize: 24
+//                            text: "работать"
+//                        }
+//                    }
+//                }
+//            }
 
             Item
             {
@@ -117,26 +150,43 @@ Common.MainLayout
                 }
             }
 
-            Rectangle
+            Item
             {
                 Layout.fillWidth: true
-                Layout.minimumHeight: 100
-                Layout.preferredHeight: 100
-                Layout.maximumHeight: 100
+                Layout.minimumHeight: 70
+                Layout.preferredHeight: 70
+                Layout.maximumHeight: 70
 
-                color: "blue"
+                Text
+                {
+//                    anchors.verticalCenter: parent.verticalCenter
+                    anchors.centerIn: parent
+                    font.pixelSize: 24
+                    text: "I need to <b>work</b>"
+                }
+
+//                color: "blue"
             }
 
-            Rectangle
+            Item
             {
                 Layout.fillWidth: true
-                Layout.minimumHeight: 100
-                Layout.preferredHeight: 100
-                Layout.maximumHeight: 100
+                Layout.minimumHeight: 70
+                Layout.preferredHeight: 70
+                Layout.maximumHeight: 70
 
                 Layout.bottomMargin: contentLayout.height * 0.1
 
-                color: "yellow"
+                Text
+                {
+//                    anchors.verticalCenter: parent.verticalCenter
+                    anchors.centerIn: parent
+                    font.pixelSize: 24
+                    text: "Мне нужно <b>работать</b>"
+                }
+
+
+//                color: "yellow"
             }
         }
     }
