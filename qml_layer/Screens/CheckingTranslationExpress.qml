@@ -34,17 +34,25 @@ Common.MainLayout
         {
             id: matchingRow
 
+            Layout.fillHeight: true
+            Layout.fillWidth: true
+
             spacing: 20
 
             Column
             {
+                id: leftColumn
+
+                width: (matchingRow.width - matchingRow.spacing) / 2
+
+                spacing: 20
+
                 Repeater
                 {
                     model: ["aaaaa1", "bbbbb1", "ccccc1"]
-                    delegate:
-                    Rectangle
+                    delegate: Rectangle
                     {
-                        width: 100
+                        width: leftColumn.width
                         height: 50
                         color: "green"
 
@@ -59,13 +67,18 @@ Common.MainLayout
 
             Column
             {
+                id: rigthColumn
+
+                width: (matchingRow.width - matchingRow.spacing) / 2
+
+                spacing: 20
+
                 Repeater
                 {
                     model: ["aaaaa2", "bbbbb2", "ccccc2"]
-                    delegate:
-                    Rectangle
+                    delegate: Rectangle
                     {
-                        width: 100
+                        width: rigthColumn.width
                         height: 50
                         color: "magenta"
 
