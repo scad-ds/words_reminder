@@ -26,7 +26,7 @@ FocusScope
 	
 	        Text
 	        {
-	            text: qsTr("START")
+                text: qsTr("START")
 	            anchors.centerIn: parent
 	        }
 	

@@ -12,5 +12,9 @@
         <file>qml_layer/Styles/SkinConfig.qml</file>
         <file>qml_layer/SelectableComponents/SelectionModeListExpandedDelegate.qml</file>
         <file>qml_layer/Screens/TranslationCardScreen.qml</file>
+        <file>qml_layer/Screens/CheckingTranslationExpress.qml</file>
+        <file>qml_layer/Screens/CheckingTranslationWithLetters.qml</file>
+        <file>qml_layer/Screens/CheckingTranslationWithVariants.qml</file>
+        <file>qml_layer/Screens/SelectTranslationType.qml</file>
     </qresource>
 </RCC>

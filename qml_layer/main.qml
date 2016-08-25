@@ -138,6 +138,7 @@ Window
             id: selectDirectionState
 
             signal toCardScreen()
+            signal toSelectTypeScreen()
 
             onEntered:
             {
@@ -148,6 +149,12 @@ Window
             {
                 signal: selectDirectionState.toCardScreen
                 targetState: translationCardState
+            }
+
+            DSM.SignalTransition
+            {
+                signal: selectDirectionState.toSelectTypeScreen
+                targetState: selectTranslationTypeState
             }
 
             DSM.SignalTransition
@@ -185,10 +192,121 @@ Window
             }
         }
 
+        DSM.State
+        {
+            id: selectTranslationTypeState
+
+            signal toExpressTranslationScreen()
+            signal toSelectFromVariantsScreen()
+            signal toMakeFromLettersScreen()
+
+            onEntered:
+            {
+                contentLoader.sourceComponent = selectTranslationTypeComponent
+            }
+
+            DSM.SignalTransition
+            {
+                signal: selectTranslationTypeState.toExpressTranslationScreen
+                targetState: expressTranslationState
+            }
+
+            DSM.SignalTransition
+            {
+                signal: selectTranslationTypeState.toSelectFromVariantsScreen
+                targetState: checkingWithVariantsState
+            }
+
+            DSM.SignalTransition
+            {
+                signal: selectTranslationTypeState.toMakeFromLettersScreen
+                targetState: checkingWithLettersState
+            }
+
+            DSM.SignalTransition
+            {
+                signal: screensDsm.backClicked
+                targetState: selectDirectionState
+            }
+
+            DSM.SignalTransition
+            {
+                signal: screensDsm.quitClicked
+                targetState: finalState
+            }
+        }
+
+        DSM.State
+        {
+            id: expressTranslationState
+
+            onEntered:
+            {
+                contentLoader.sourceComponent = checkingExpressScreenComponent
+            }
+
+            DSM.SignalTransition
+            {
+                signal: screensDsm.backClicked
+                targetState: selectTranslationTypeState
+            }
+
+            DSM.SignalTransition
+            {
+                signal: screensDsm.quitClicked
+                targetState: finalState
+            }
+        }
+
+        DSM.State
+        {
+            id: checkingWithVariantsState
+
+            onEntered:
+            {
+                contentLoader.sourceComponent = checkingWithVariantsScreenComponent
+            }
+
+            DSM.SignalTransition
+            {
+                signal: screensDsm.backClicked
+                targetState: selectTranslationTypeState
+            }
+
+            DSM.SignalTransition
+            {
+                signal: screensDsm.quitClicked
+                targetState: finalState
+            }
+        }
+
+        DSM.State
+        {
+            id: checkingWithLettersState
+
+            onEntered:
+            {
+                contentLoader.sourceComponent = checkingWithLettersScreenComponent
+            }
+
+            DSM.SignalTransition
+            {
+                signal: screensDsm.backClicked
+                targetState: selectTranslationTypeState
+            }
+
+            DSM.SignalTransition
+            {
+                signal: screensDsm.quitClicked
+                targetState: finalState
+            }
+        }
+
         DSM.FinalState
         {
             id: finalState
         }
+
         onFinished:
         {
             Qt.quit()
@@ -385,6 +503,21 @@ Window
             {
                 selectDirectionState.toCardScreen()
             }
+
+            onRusToEngSelected:
+            {
+                selectDirectionState.toSelectTypeScreen()
+            }
+
+            onEngToRusSelected:
+            {
+                selectDirectionState.toSelectTypeScreen()
+            }
+
+            onMixingSelected:
+            {
+                selectDirectionState.toSelectTypeScreen()
+            }
         }
     }
 
@@ -404,6 +537,101 @@ Window
             onRightHeaderButtonClicked:
             {
                 screensDsm.quitClicked()
+            }
+        }
+    }
+
+    Component
+    {
+        id: checkingWithVariantsScreenComponent
+
+        Screens.CheckingTranslationWithVariants
+        {
+            id: checkingWithVariantsScreen
+
+            onLeftHeaderButtonClicked:
+            {
+                screensDsm.backClicked()
+            }
+
+            onRightHeaderButtonClicked:
+            {
+                screensDsm.quitClicked()
+            }
+        }
+    }
+
+    Component
+    {
+        id: checkingWithLettersScreenComponent
+
+        Screens.CheckingTranslationWithLetters
+        {
+            id: checkingWithLettersScreen
+
+            onLeftHeaderButtonClicked:
+            {
+                screensDsm.backClicked()
+            }
+
+            onRightHeaderButtonClicked:
+            {
+                screensDsm.quitClicked()
+            }
+        }
+    }
+
+    Component
+    {
+        id: checkingExpressScreenComponent
+
+        Screens.CheckingTranslationExpress
+        {
+            id: checkingExpressScreen
+
+            onLeftHeaderButtonClicked:
+            {
+                screensDsm.backClicked()
+            }
+
+            onRightHeaderButtonClicked:
+            {
+                screensDsm.quitClicked()
+            }
+        }
+    }
+
+    Component
+    {
+        id: selectTranslationTypeComponent
+
+        Screens.SelectTranslationType
+        {
+            id: selectTranslationType
+
+            onLeftHeaderButtonClicked:
+            {
+                screensDsm.backClicked()
+            }
+
+            onRightHeaderButtonClicked:
+            {
+                screensDsm.quitClicked()
+            }
+
+            onExpressTranslationActivated:
+            {
+                selectTranslationTypeState.toExpressTranslationScreen()
+            }
+
+            onSelectVariantsActivated:
+            {
+                selectTranslationTypeState.toSelectFromVariantsScreen()
+            }
+
+            onMakeLettersActivated:
+            {
+                selectTranslationTypeState.toMakeFromLettersScreen()
             }
         }
     }
