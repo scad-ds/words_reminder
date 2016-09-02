@@ -16,5 +16,6 @@
         <file>qml_layer/Screens/CheckingTranslationWithLetters.qml</file>
         <file>qml_layer/Screens/CheckingTranslationWithVariants.qml</file>
         <file>qml_layer/Screens/SelectTranslationType.qml</file>
+        <file>qml_layer/test_main.qml</file>
     </qresource>
 </RCC>
