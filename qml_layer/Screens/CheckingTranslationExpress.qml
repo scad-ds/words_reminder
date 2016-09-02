@@ -25,69 +25,92 @@ Common.MainLayout
 
             Layout.fillWidth: true
             Layout.minimumHeight: caption.contentHeight
+            Layout.preferredHeight: caption.contentHeight + 40
+            Layout.maximumHeight: caption.contentHeight + 40
             Layout.fillHeight: true
+            verticalAlignment: Qt.AlignVCenter
+            horizontalAlignment: Qt.AlignHCenter
 
-            text: "BlaBlaCaption"
+            text: "Caption:"
         }
 
-        Row
+        Column
         {
-            id: matchingRow
-
             Layout.fillHeight: true
             Layout.fillWidth: true
 
-            spacing: 20
-
-            Column
+            Row
             {
-                id: leftColumn
+                id: matchingRow
 
-                width: (matchingRow.width - matchingRow.spacing) / 2
+                width: parent.width
 
                 spacing: 20
 
-                Repeater
+                Column
                 {
-                    model: ["aaaaa1", "bbbbb1", "ccccc1"]
-                    delegate: Rectangle
-                    {
-                        width: leftColumn.width
-                        height: 50
-                        color: "green"
+                    id: leftColumn
 
-                        Text
+                    width: (matchingRow.width - matchingRow.spacing) / 2
+
+                    spacing: 20
+
+                    Repeater
+                    {
+                        model: ["aaaaa1", "bbbbb1", "ccccc1", "ddddd1", "eeeee1", "ggggg1", "jjjjj1"]
+                        delegate: Rectangle
                         {
-                            anchors.centerIn: parent
-                            text: modelData
+                            width: leftColumn.width
+                            height: 60
+                            color: "green"
+
+                            Text
+                            {
+                                anchors.centerIn: parent
+                                text: modelData
+                            }
+                        }
+                    }
+                }
+
+                Column
+                {
+                    id: rigthColumn
+
+                    width: (matchingRow.width - matchingRow.spacing) / 2
+
+                    spacing: 20
+
+                    Repeater
+                    {
+                        model: ["aaaaa2", "bbbbb2", "ccccc2", "ddddd2", "eeeee2", "ggggg2", "jjjjj2"]
+                        delegate: Rectangle
+                        {
+                            width: rigthColumn.width
+                            height: 60
+                            color: "magenta"
+
+                            Text
+                            {
+                                anchors.centerIn: parent
+                                text: modelData
+                            }
                         }
                     }
                 }
             }
 
-            Column
+            FocusScope
             {
-                id: rigthColumn
+                width: parent.width
+                height: 80
 
-                width: (matchingRow.width - matchingRow.spacing) / 2
-
-                spacing: 20
-
-                Repeater
+                Rectangle
                 {
-                    model: ["aaaaa2", "bbbbb2", "ccccc2"]
-                    delegate: Rectangle
-                    {
-                        width: rigthColumn.width
-                        height: 50
-                        color: "magenta"
-
-                        Text
-                        {
-                            anchors.centerIn: parent
-                            text: modelData
-                        }
-                    }
+                    width: parent.width * 0.6
+                    height: 60
+                    anchors.centerIn: parent
+                    color: "yellow"
                 }
             }
         }
