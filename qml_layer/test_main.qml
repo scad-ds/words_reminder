@@ -8,60 +8,36 @@ import "qrc:/qml_layer/Screens" as Screens
 Window
 {
     visible: true
+//    width: 480
+//    height: 800
+
     width: 800
     height: 600
+
     title: qsTr("Test")
 
-    SwipeView {
-        id: view
+    Loader
+    {
+        id: contentLoader
 
-        currentIndex: 1
         anchors.fill: parent
-
-        Repeater
-        {
-            model: 10
-            delegate:
-            Rectangle {
-                id: dlg
-                width: 100
-                height: 100
-                color: index % 2 === 0 ? "blue" : "green"
-            }
-        }
-
-//        Rectangle {
-//            id: firstPage
-//            width: 100
-//            height: 100
-//            color: "blue"
-//        }
-//        Rectangle {
-//            id: secondPage
-//            width: 100
-//            height: 100
-//            color: "red"
-//        }
-//        Rectangle {
-//            id: thirdPage
-//            width: 100
-//            height: 100
-//            color: "green"
-//        }
+        asynchronous: false
+        sourceComponent: translationCardComponent
     }
-
-//    Loader
-//    {
-//        id: contentLoader
-
-//        anchors.fill: parent
-//        asynchronous: false
-//        sourceComponent: loadingScreenComponent
-//    }
 
 
 
     // ------------------- Components ---------------------------------------------------
+
+    Component
+    {
+        id: translationCardComponent
+
+        Screens.TranslationCardScreen
+        {
+            id: translationCardScreen
+        }
+    }
 
     Component
     {

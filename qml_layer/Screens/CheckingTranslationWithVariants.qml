@@ -12,6 +12,33 @@ Common.MainLayout
     rightHeaderButtonText: qsTr("Quit")
     centralHeaderText: qsTr("CheckingTranslationWithVariants")
 
+    ListModel
+    {
+        id: translationModel
+
+        function initModel()
+        {
+            for(var i = 0; i < 3; i++)
+            {
+                var item = {    "targetWord": "targetWord " + i,
+                                "translationVariants": ["1", "2", "3", "4", "5", "6"]
+                           }
+                cardsListModel.append(item)
+            }
+        }
+
+        Component.onCompleted:
+        {
+            initModel()
+        }
+
+        ListElement
+        {
+            targetWord: "(to) work"
+            //translationVariants: ["работать 1", "работать 2", "работать 3", "работать 4", "работать 5", "работать 6"]
+        }
+    }
+
     contentItem:
     ColumnLayout
     {
