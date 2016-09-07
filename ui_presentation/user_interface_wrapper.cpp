@@ -13,8 +13,8 @@ UserInterfaceWrapper::UserInterfaceWrapper(QSharedPointer<um::UiModelsLayerWrapp
 
     engine_.rootContext()->setContextProperty("skin", skin);
 
-//    engine_.load(QUrl(QStringLiteral("qrc:/qml_layer/main.qml")));
-    engine_.load(QUrl(QStringLiteral("qrc:/qml_layer/test_main.qml")));
+    engine_.load(QUrl(QStringLiteral("qrc:/qml_layer/main.qml")));
+//    engine_.load(QUrl(QStringLiteral("qrc:/qml_layer/test_main.qml")));
 }
 
 } // namespace ui

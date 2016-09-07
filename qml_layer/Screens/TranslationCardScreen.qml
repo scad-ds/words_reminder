@@ -53,6 +53,31 @@ Common.MainLayout
         anchors.fill: parent
         currentIndex: 1
 
+        background: Item
+        {
+            anchors.fill: parent
+
+            Rectangle
+            {
+                width: 30
+                height: 120
+                color: "lightblue"
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.left: parent.left
+                visible: contentView.currentIndex != 0
+            }
+
+            Rectangle
+            {
+                width: 30
+                height: 120
+                color: "lightblue"
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.right: parent.right
+                visible: contentView.currentIndex != contentView.count - 1
+            }
+        }
+
         Repeater
         {
             model: wrapper.cardsModel
@@ -150,12 +175,55 @@ Common.MainLayout
        {
            id: finalScreenContainer
 
-           Rectangle
+           Column
            {
-               width: parent.width / 2
-               height: 50
-               color: "lightgreen"
+               spacing: 30
                anchors.centerIn: parent
+
+               Rectangle
+               {
+                   width: finalScreenContainer.width / 2
+                   height: 50
+                   color: "blue"
+                   MouseArea
+                   {
+                       anchors.fill: parent
+                       onClicked:
+                       {
+                           contentView.currentIndex = 0
+                       }
+                   }
+               }
+
+               Rectangle
+               {
+                   width: finalScreenContainer.width / 2
+                   height: 50
+                   color: "blue"
+                   MouseArea
+                   {
+                       anchors.fill: parent
+                       onClicked:
+                       {
+                           contentView.currentIndex = 0
+                       }
+                   }
+               }
+
+               Rectangle
+               {
+                   width: finalScreenContainer.width / 2
+                   height: 50
+                   color: "blue"
+                   MouseArea
+                   {
+                       anchors.fill: parent
+                       onClicked:
+                       {
+                           contentView.currentIndex = 0
+                       }
+                   }
+               }
            }
        }
     }

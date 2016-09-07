@@ -23,7 +23,7 @@ Common.MainLayout
                 var item = {    "targetWord": "targetWord " + i,
                                 "translationVariants": ["1", "2", "3", "4", "5", "6"]
                            }
-                cardsListModel.append(item)
+                translationModel.append(item)
             }
         }
 

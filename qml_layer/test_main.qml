@@ -8,11 +8,11 @@ import "qrc:/qml_layer/Screens" as Screens
 Window
 {
     visible: true
-//    width: 480
-//    height: 800
+    width: 480
+    height: 800
 
-    width: 800
-    height: 600
+//    width: 800
+//    height: 600
 
     title: qsTr("Test")
 
